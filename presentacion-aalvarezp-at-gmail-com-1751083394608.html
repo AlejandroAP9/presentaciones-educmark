@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explorando el Humanismo: Un Viaje a través de la Historia</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #c0392b;
+            --secondary-color: #8e44ad;
+            --accent-color: #f39c12;
+            --primary-gradient: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            --secondary-gradient: linear-gradient(135deg, var(--accent-color) 0%, var(--primary-color) 100%);
+            --text-primary: #2c3e50;
+            --border-radius-large: 20px;
+            --border-radius-small: 12px;
+            --shadow-large: 0 20px 60px rgba(0, 0, 0, 0.1);
+            --shadow-medium: 0 10px 30px rgba(0, 0, 0, 0.08);
+            --shadow-small: 0 5px 15px rgba(0, 0, 0, 0.06);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background: var(--primary-gradient);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: var(--border-radius-large);
+            box-shadow: var(--shadow-large);
+            min-height: 100vh;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--secondary-gradient);
+            z-index: 10;
+        }
+
+        .slide {
+            display: none;
+            padding: 80px 60px;
+            min-height: 90vh;
+            position: relative;
+            overflow-y: auto;
+        }
+
+        .slide.active {
+            display: flex;
+            flex-direction: column;
+            animation: slideEnter 0.8s ease;
+        }
+
+        @keyframes slideEnter {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .slide-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .slide h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 20px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .slide h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 4px;
+            background: var(--secondary-gradient);
+            border-radius: 2px;
+        }
+
+        .slide-content-wrapper {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 40px;
+            align-items: start;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .slide.has-image .slide-content-wrapper {
+            grid-template-columns: 1.2fr 0.8fr;
+        }
+
+        .slide-image {
+            position: relative;
+            text-align: center;
+            order: 2;
+        }
+
+        .slide img {
+            max-width: 100%;
+            height: auto;
+            max-height: 400px;
+            border-radius: var(--border-radius-large);
+            box-shadow: var(--shadow-large);
+            transition: all 0.6s ease;
+            object-fit: cover;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .slide img:hover {
+            transform: scale(1.02) translateY(-10px);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.15);
+        }
+
+        .slide-content {
+            font-size: 1.125rem;
+            line-height: 1.8;
+            color: var(--text-primary);
+            text-align: left;
+            order: 1;
+        }
+
+        .slide-content h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.75rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 25px;
+        }
+
+        .slide-content p {
+            margin-bottom: 20px;
+            text-align: justify;
+        }
+
+        .slide-content ul {
+            list-style: none;
+            padding-left: 0;
+            margin: 20px 0;
+        }
+
+        .slide-content li {
+            padding: 12px 0;
+            position: relative;
+            padding-left: 30px;
+        }
+
+        .slide-content li::before {
+            content: '✨';
+            position: absolute;
+            left: 0;
+            top: 12px;
+            font-size: 1.2rem;
+            color: var(--accent-color);
+        }
+
+        .slide-content strong {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .navigation {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 15px;
+            z-index: 2000;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            padding: 12px 20px;
+            border-radius: 50px;
+            box-shadow: var(--shadow-large);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            min-width: 280px;
+        }
+
+        .nav-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 20px;
+            background: var(--primary-gradient);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-small);
+            font-family: 'Inter', sans-serif;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+            min-width: 80px;
+            text-align: center;
+            justify-content: center;
+        }
+
+        .nav-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-medium);
+            background: var(--secondary-gradient);
+        }
+
+        .nav-btn:disabled {
+            background: #e9ecef;
+            color: #adb5bd;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .quiz-container {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 50px;
+            border-radius: var(--border-radius-large);
+            margin: 30px 0;
+            box-shadow: var(--shadow-large);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .quiz-question {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .quiz-option {
+            display: flex;
+            align-items: center;
+            padding: 20px 25px;
+            margin: 15px 0;
+            background: rgba(255, 255, 255, 0.9);
+            border: 2px solid rgba(0, 0, 0, 0.1);
+            border-radius: var(--border-radius-small);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            touch-action: manipulation;
+        }
+
+        .quiz-option:hover {
+            border-color: var(--primary-color);
+            background: rgba(255, 255, 255, 1);
+            transform: translateX(10px);
+            box-shadow: var(--shadow-small);
+        }
+
+        .quiz-option.correct {
+            border-color: #2ecc71;
+            background: rgba(46, 204, 113, 0.1);
+        }
+
+        .quiz-option.incorrect {
+            border-color: #e74c3c;
+            background: rgba(231, 76, 60, 0.1);
+        }
+
+        .quiz-explanation {
+            background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
+            padding: 25px;
+            border-radius: var(--border-radius-small);
+            margin-top: 20px;
+            border-left: 4px solid var(--accent-color);
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        .info-header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 50px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .info-header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .info-header p {
+            font-size: 1.125rem;
+            opacity: 0.9;
+        }
+
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: var(--secondary-gradient);
+            transition: width 0.6s ease;
+            z-index: 1000;
+        }
+
+        .slide-indicator {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            background: rgba(44, 62, 80, 0.9);
+            backdrop-filter: blur(10px);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 25px;
+            font-weight: 600;
+            z-index: 1000;
+            box-shadow: var(--shadow-medium);
+        }
+
+        @media (max-width: 768px) {
+            .slide {
+                padding: 30px 15px;
+                min-height: auto;
+            }
+            
+            .slide.has-image .slide-content-wrapper {
+                grid-template-columns: 1fr;
+                gap: 25px;
+            }
+            
+            .slide-image {
+                order: 1;
+                margin-bottom: 20px;
+            }
+            
+            .slide img {
+                max-height: 250px;
+                width: 100%;
+                object-fit: contain;
+            }
+            
+            .slide-content {
+                order: 2;
+                font-size: 1rem;
+                line-height: 1.6;
+            }
+            
+            .navigation {
+                bottom: 10px;
+                padding: 10px 15px;
+                width: calc(100% - 40px);
+                max-width: 400px;
+                gap: 10px;
+            }
+            
+            .nav-btn {
+                padding: 12px 16px;
+                font-size: 13px;
+                min-width: 70px;
+                flex: 1;
+            }
+            
+            .quiz-container {
+                padding: 20px 15px;
+            }
+            
+            .info-header {
+                padding: 20px 15px;
+            }
+            
+            .slide-indicator {
+                top: 10px;
+                right: 10px;
+                padding: 10px 15px;
+                font-size: 12px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .slide {
+                padding: 20px 10px;
+            }
+            
+            .slide h2 {
+                font-size: 1.8rem;
+            }
+            
+            .slide-content h3 {
+                font-size: 1.4rem;
+            }
+            
+            .slide-content {
+                font-size: 0.9rem;
+            }
+            
+            .quiz-container {
+                padding: 15px 10px;
+            }
+            
+            .nav-btn {
+                padding: 10px 12px;
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="progress-bar" id="progressBar"></div>
+        <div class="slide-indicator" id="slideIndicator">1 / 7</div>
+        
+        <div class="info-header">
+            <h1><i class="fas fa-landmark" style="margin-right: 15px;"></i>Explorando el Humanismo: Un Viaje a través de la Historia</h1>
+            <p><strong><i class="fas fa-book"></i> Historia, Geografía y Cs. Sociales - 8° Básico</strong></p>
+            <p><i class="fas fa-user-tie"></i> Profesor: Alejandro | <i class="fas fa-clock"></i> Duración: 90 minutos</p>
+        </div>
+        
+        
+            <div class="slide active has-image" data-slide="0">
+                <div class="slide-header">
+                    <h2><i class="fas fa-star" style="margin-right: 15px; color: var(--accent-color);"></i>Introducción al Humanismo</h2>
+                </div>
+                <div class="slide-content-wrapper">
+                    <div class="slide-content"><h3>¿Qué es el Humanismo?</h3><p>En esta clase, vas a aprender sobre el Humanismo, un movimiento cultural que resalta el valor y la dignidad del ser humano. Este surgió en Europa entre los siglos XIV y XVI y marcó un antes y un después en la historia. ¿Por qué es importante? Porque nos invita a reflexionar sobre nuestra naturaleza y nuestro lugar en el mundo. Durante esta presentación, exploraremos cómo este movimiento ha influido en nuestra vida hoy.</p><p>Entenderemos las características que definen al Humanismo y su impacto en diversas áreas, como el arte, la literatura y la educación.</p></div>
+                    
+                        <div class="slide-image">
+                            <img src="https://replicate.delivery/xezq/3lk92FrQvSbFDt88C1QkC8eB7fEW8fmXlNTiWHLcOiMDVj2pA/out-0.png" 
+                                 alt="Introducción al Humanismo" 
+                                 loading="lazy"
+                                 onerror="this.style.display='none'"
+                                 onload="this.style.opacity='1'"
+                                 style="opacity:0;transition:opacity 0.3s ease;">
+                        </div>
+                    
+                </div>
+            </div>
+            
+            <div class="slide  has-image" data-slide="1">
+                <div class="slide-header">
+                    <h2><i class="fas fa-star" style="margin-right: 15px; color: var(--accent-color);"></i>Características del Humanismo</h2>
+                </div>
+                <div class="slide-content-wrapper">
+                    <div class="slide-content"><h3>Las Bases del Humanismo</h3><p>Primero, el Humanismo busca redescubrir y adaptar la cultura clásica grecorromana. Esto significa que muchos humanistas leyeron obras antiguas para inspirarse y crear nuevas ideas. Un aspecto clave del Humanismo es la promoción del pensamiento crítico, donde se nos anima a no aceptar las cosas como son, sino a cuestionarlas.</p><p>Además, el enfoque en la educación y la mejora del individuo fue esencial. Los humanistas creían que a través del conocimiento, las personas podían alcanzar su máximo potencial.</p></div>
+                    
+                        <div class="slide-image">
+                            <img src="https://replicate.delivery/xezq/Oz5yXsnHxCKfVq7ABO4famk5dddW0HzUnxWeeXqJp3qjpGtTB/out-0.png" 
+                                 alt="Características del Humanismo" 
+                                 loading="lazy"
+                                 onerror="this.style.display='none'"
+                                 onload="this.style.opacity='1'"
+                                 style="opacity:0;transition:opacity 0.3s ease;">
+                        </div>
+                    
+                </div>
+            </div>
+            
+            <div class="slide  has-image" data-slide="2">
+                <div class="slide-header">
+                    <h2><i class="fas fa-star" style="margin-right: 15px; color: var(--accent-color);"></i>Figuras Clave del Humanismo</h2>
+                </div>
+                <div class="slide-content-wrapper">
+                    <div class="slide-content"><h3>Conociendo a los Humanistas</h3><p>Existen figuras destacadas que fueron parte del movimiento humanista. Francesco Petrarca es conocido como el "padre del Humanismo" por su exploración de la literatura clásica. Luego tenemos a Erasmo de Róterdam, quien se destacó al criticar la corrupción de la iglesia y abogar por la reforma educativa. Finalmente, Nicolás Maquiavelo, famoso por su obra "El Príncipe", que aborda la política de una manera innovadora.</p></div>
+                    
+                        <div class="slide-image">
+                            <img src="https://replicate.delivery/xezq/JspSdluHGtJgJxl9GiNdipTbTWLXT6wLIm1Us5QRiekI1odKA/out-0.png" 
+                                 alt="Figuras Clave del Humanismo" 
+                                 loading="lazy"
+                                 onerror="this.style.display='none'"
+                                 onload="this.style.opacity='1'"
+                                 style="opacity:0;transition:opacity 0.3s ease;">
+                        </div>
+                    
+                </div>
+            </div>
+            
+            <div class="slide  has-image" data-slide="3">
+                <div class="slide-header">
+                    <h2><i class="fas fa-star" style="margin-right: 15px; color: var(--accent-color);"></i>Humanismo y su Influencia</h2>
+                </div>
+                <div class="slide-content-wrapper">
+                    <div class="slide-content"><h3>El Legado del Humanismo</h3><p>El Humanismo no solo impactó la literatura; su influencia se sintió en el arte y la educación. Los artistas comenzaron a explorar temas más humanos y realistas, algo que se puede ver en obras como las de Da Vinci y Miguel Ángel. A nivel educativo, promovió una enseñanza que valoraba el conocimiento y el desarrollo del pensamiento libre.</p></div>
+                    
+                        <div class="slide-image">
+                            <img src="https://replicate.delivery/xezq/UWIJS9VdJhqaHFTCmROQwFeWPme4Hqe7mg1oVk9OuzepoGtTB/out-0.png" 
+                                 alt="Humanismo y su Influencia" 
+                                 loading="lazy"
+                                 onerror="this.style.display='none'"
+                                 onload="this.style.opacity='1'"
+                                 style="opacity:0;transition:opacity 0.3s ease;">
+                        </div>
+                    
+                </div>
+            </div>
+            
+            <div class="slide  " data-slide="4">
+                <div class="slide-header">
+                    <h2><i class="fas fa-star" style="margin-right: 15px; color: var(--accent-color);"></i>Actividades Interactivas</h2>
+                </div>
+                <div class="slide-content-wrapper">
+                    <div class="slide-content"><h3>¡Es tu Turno!</h3><p>Ahora que hemos explorado el Humanismo, es momento de que tú participes. Realizaremos dos actividades: 1) Investigación en grupo sobre un autor humanista. Cada grupo presentará sus findings. 2) Debate en clase sobre la relevancia del Humanismo hoy. ¿Qué opinas tú sobre sus principios en nuestra realidad actual?</p></div>
+                    
+                </div>
+            </div>
+            
+            <div class="slide  " data-slide="5">
+                <div class="slide-header">
+                    <h2><i class="fas fa-star" style="margin-right: 15px; color: var(--accent-color);"></i>Reflexiones Finales</h2>
+                </div>
+                <div class="slide-content-wrapper">
+                    <div class="slide-content"><h3>Conclusiones sobre el Humanismo</h3><p>Hoy exploramos un movimiento fundamental en la historia, el Humanismo, y su impacto en diferentes áreas. Este ha sido un viaje donde hemos aprendido no solo sobre el pasado, sino sobre cómo estos principios aún resuenan en nuestra vida diaria. Te invito a reflexionar sobre lo que has aprendido: ¿Cuáles son los principios del Humanismo que podrías aplicar en tu vida?</p></div>
+                    
+                </div>
+            </div>
+            
+        
+        <div class="slide" data-slide="6">
+            <div class="slide-header">
+                <h2><i class="fas fa-trophy" style="margin-right: 15px; color: var(--accent-color);"></i>Evaluación</h2>
+            </div>
+            <div id="quizContainer">
+                
+                    <div class="quiz-container" data-question="0" style="">
+                        <div class="quiz-question">
+                            <i class="fas fa-question-circle" style="margin-right: 10px; color: var(--primary-color);"></i>
+                            ¿Qué caracteriza al Humanismo?
+                        </div>
+                        <div class="quiz-options">
+                            
+                                <div class="quiz-option" data-option="a" onclick="selectOption(0, 'a')">
+                                    <strong style="margin-right: 15px; color: var(--primary-color);">A:</strong> 
+                                    A. Enfasis en la naturaleza mística
+                                </div>
+                            
+                                <div class="quiz-option" data-option="b" onclick="selectOption(0, 'b')">
+                                    <strong style="margin-right: 15px; color: var(--primary-color);">B:</strong> 
+                                    B. Redescubrimiento de la antigüedad clásica
+                                </div>
+                            
+                                <div class="quiz-option" data-option="c" onclick="selectOption(0, 'c')">
+                                    <strong style="margin-right: 15px; color: var(--primary-color);">C:</strong> 
+                                    C. Enfoque en la religión
+                                </div>
+                            
+                                <div class="quiz-option" data-option="d" onclick="selectOption(0, 'd')">
+                                    <strong style="margin-right: 15px; color: var(--primary-color);">D:</strong> 
+                                    D. Desapego de la educación
+                                </div>
+                            
+                        </div>
+                        <div class="quiz-explanation" id="explanation-0" style="display: none;">
+                            <strong><i class="fas fa-lightbulb" style="margin-right: 8px;"></i>Explicación:</strong> La correcta es B, ya que el Humanismo se basa en el redescubrimiento de la cultura clásica grecorromana. Las otras opciones no corresponden a las características del movimiento.
+                        </div>
+                    </div>
+                
+                    <div class="quiz-container" data-question="1" style="display: none;">
+                        <div class="quiz-question">
+                            <i class="fas fa-question-circle" style="margin-right: 10px; color: var(--primary-color);"></i>
+                            ¿Quién es conocido como el 'padre del Humanismo'?
+                        </div>
+                        <div class="quiz-options">
+                            
+                                <div class="quiz-option" data-option="a" onclick="selectOption(1, 'a')">
+                                    <strong style="margin-right: 15px; color: var(--primary-color);">A:</strong> 
+                                    A. Nicolás Maquiavelo
+                                </div>
+                            
+                                <div class="quiz-option" data-option="b" onclick="selectOption(1, 'b')">
+                                    <strong style="margin-right: 15px; color: var(--primary-color);">B:</strong> 
+                                    B. Erasmo de Róterdam
+                                </div>
+                            
+                                <div class="quiz-option" data-option="c" onclick="selectOption(1, 'c')">
+                                    <strong style="margin-right: 15px; color: var(--primary-color);">C:</strong> 
+                                    C. Francesco Petrarca
+                                </div>
+                            
+                                <div class="quiz-option" data-option="d" onclick="selectOption(1, 'd')">
+                                    <strong style="margin-right: 15px; color: var(--primary-color);">D:</strong> 
+                                    D. Leonardo Da Vinci
+                                </div>
+                            
+                        </div>
+                        <div class="quiz-explanation" id="explanation-1" style="display: none;">
+                            <strong><i class="fas fa-lightbulb" style="margin-right: 8px;"></i>Explicación:</strong> La respuesta correcta es C, Francesco Petrarca es conocido como el 'padre del Humanismo' por su papel en la exploración de la literatura clásica.
+                        </div>
+                    </div>
+                
+                    <div class="quiz-container" data-question="2" style="display: none;">
+                        <div class="quiz-question">
+                            <i class="fas fa-question-circle" style="margin-right: 10px; color: var(--primary-color);"></i>
+                            ¿Cómo impactó el Humanismo en la educación?
+                        </div>
+                        <div class="quiz-options">
+                            
+                                <div class="quiz-option" data-option="a" onclick="selectOption(2, 'a')">
+                                    <strong style="margin-right: 15px; color: var(--primary-color);">A:</strong> 
+                                    A. Promovió el pensamiento crítico
+                                </div>
+                            
+                                <div class="quiz-option" data-option="b" onclick="selectOption(2, 'b')">
+                                    <strong style="margin-right: 15px; color: var(--primary-color);">B:</strong> 
+                                    B. Ignoró la educación
+                                </div>
+                            
+                                <div class="quiz-option" data-option="c" onclick="selectOption(2, 'c')">
+                                    <strong style="margin-right: 15px; color: var(--primary-color);">C:</strong> 
+                                    C. Solo se enfocó en el arte
+                                </div>
+                            
+                                <div class="quiz-option" data-option="d" onclick="selectOption(2, 'd')">
+                                    <strong style="margin-right: 15px; color: var(--primary-color);">D:</strong> 
+                                    D. Fomentó el pensamiento religioso
+                                </div>
+                            
+                        </div>
+                        <div class="quiz-explanation" id="explanation-2" style="display: none;">
+                            <strong><i class="fas fa-lightbulb" style="margin-right: 8px;"></i>Explicación:</strong> La correcta es A. El Humanismo promovió el pensamiento crítico y una educación más centrada en el conocimiento del ser humano.
+                        </div>
+                    </div>
+                
+                    <div class="quiz-container" data-question="3" style="display: none;">
+                        <div class="quiz-question">
+                            <i class="fas fa-question-circle" style="margin-right: 10px; color: var(--primary-color);"></i>
+                            En el debate de esta clase, ¿qué aspecto sobre el Humanismo fue más debatido?
+                        </div>
+                        <div class="quiz-options">
+                            
+                                <div class="quiz-option" data-option="a" onclick="selectOption(3, 'a')">
+                                    <strong style="margin-right: 15px; color: var(--primary-color);">A:</strong> 
+                                    A. Su irrelevancia
+                                </div>
+                            
+                                <div class="quiz-option" data-option="b" onclick="selectOption(3, 'b')">
+                                    <strong style="margin-right: 15px; color: var(--primary-color);">B:</strong> 
+                                    B. Su impacto en la política actual
+                                </div>
+                            
+                                <div class="quiz-option" data-option="c" onclick="selectOption(3, 'c')">
+                                    <strong style="margin-right: 15px; color: var(--primary-color);">C:</strong> 
+                                    C. Su falta de conexión con la actualidad
+                                </div>
+                            
+                                <div class="quiz-option" data-option="d" onclick="selectOption(3, 'd')">
+                                    <strong style="margin-right: 15px; color: var(--primary-color);">D:</strong> 
+                                    D. Su valor histórico
+                                </div>
+                            
+                        </div>
+                        <div class="quiz-explanation" id="explanation-3" style="display: none;">
+                            <strong><i class="fas fa-lightbulb" style="margin-right: 8px;"></i>Explicación:</strong> La respuesta correcta es B, ya que los estudiantes debatieron sobre la importancia del Humanismo en la política actual.
+                        </div>
+                    </div>
+                
+            </div>
+        </div>
+    </div>
+
+    <div class="navigation">
+        <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)" disabled>
+            <i class="fas fa-chevron-left"></i> Anterior
+        </button>
+        <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">
+            Siguiente <i class="fas fa-chevron-right"></i>
+        </button>
+        <button class="nav-btn" id="resetBtn" onclick="resetPresentation()" style="display: none;">
+            <i class="fas fa-redo"></i> Reiniciar
+        </button>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const totalSlides = 7;
+        const quiz = {"preguntas":[{"pregunta":"¿Qué caracteriza al Humanismo?","opciones":["A. Enfasis en la naturaleza mística","B. Redescubrimiento de la antigüedad clásica","C. Enfoque en la religión","D. Desapego de la educación"],"respuesta_correcta":"b","explicacion":"La correcta es B, ya que el Humanismo se basa en el redescubrimiento de la cultura clásica grecorromana. Las otras opciones no corresponden a las características del movimiento.","nivel_taxonomico":"remember","slide_relacionado":"2"},{"pregunta":"¿Quién es conocido como el 'padre del Humanismo'?","opciones":["A. Nicolás Maquiavelo","B. Erasmo de Róterdam","C. Francesco Petrarca","D. Leonardo Da Vinci"],"respuesta_correcta":"c","explicacion":"La respuesta correcta es C, Francesco Petrarca es conocido como el 'padre del Humanismo' por su papel en la exploración de la literatura clásica.","nivel_taxonomico":"remember","slide_relacionado":"3"},{"pregunta":"¿Cómo impactó el Humanismo en la educación?","opciones":["A. Promovió el pensamiento crítico","B. Ignoró la educación","C. Solo se enfocó en el arte","D. Fomentó el pensamiento religioso"],"respuesta_correcta":"a","explicacion":"La correcta es A. El Humanismo promovió el pensamiento crítico y una educación más centrada en el conocimiento del ser humano.","nivel_taxonomico":"understand","slide_relacionado":"4"},{"pregunta":"En el debate de esta clase, ¿qué aspecto sobre el Humanismo fue más debatido?","opciones":["A. Su irrelevancia","B. Su impacto en la política actual","C. Su falta de conexión con la actualidad","D. Su valor histórico"],"respuesta_correcta":"b","explicacion":"La respuesta correcta es B, ya que los estudiantes debatieron sobre la importancia del Humanismo en la política actual.","nivel_taxonomico":"apply","slide_relacionado":"5"}]};
+        let quizScore = 0;
+        let quizAnswered = Array(4).fill(false);
+        let currentQuizQuestion = 0;
+
+        // Soporte para gestos táctiles (swipe)
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        document.addEventListener('touchstart', function(e) {
+            touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+
+        document.addEventListener('touchend', function(e) {
+            touchEndX = e.changedTouches[0].screenX;
+            handleGesture();
+        }, { passive: true });
+
+        function handleGesture() {
+            const swipeThreshold = 50;
+            const diff = touchEndX - touchStartX;
+            
+            if (Math.abs(diff) > swipeThreshold) {
+                if (diff > 0 && currentSlide > 0) {
+                    // Swipe derecha = anterior
+                    changeSlide(-1);
+                } else if (diff < 0) {
+                    // Swipe izquierda = siguiente
+                    if (currentSlide < totalSlides - 1) {
+                        changeSlide(1);
+                    } else if (currentSlide === totalSlides - 1) {
+                        if (currentQuizQuestion < quiz.preguntas.length - 1 && quizAnswered[currentQuizQuestion]) {
+                            showNextQuestion(currentQuizQuestion + 1);
+                        } else if (currentQuizQuestion === quiz.preguntas.length - 1 && quizAnswered[currentQuizQuestion]) {
+                            showQuizResults();
+                        }
+                    }
+                }
+            }
+        }
+
+        function updateSlideIndicator() {
+            document.getElementById('slideIndicator').textContent = (currentSlide + 1) + ' / ' + totalSlides;
+        }
+
+        function updateProgressBar() {
+            const progress = ((currentSlide + 1) / totalSlides) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+        }
+
+        function updateNavigation() {
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const resetBtn = document.getElementById('resetBtn');
+            
+            prevBtn.disabled = currentSlide === 0;
+            
+            if (currentSlide === totalSlides - 1) {
+                if (currentQuizQuestion < quiz.preguntas.length - 1) {
+                    nextBtn.innerHTML = 'Siguiente Pregunta <i class="fas fa-chevron-right"></i>';
+                    nextBtn.disabled = !quizAnswered[currentQuizQuestion];
+                    nextBtn.setAttribute('onclick', 'showNextQuestion(' + (currentQuizQuestion + 1) + ')');
+                } else if (currentQuizQuestion === quiz.preguntas.length - 1 && quizAnswered[currentQuizQuestion]) {
+                    nextBtn.innerHTML = 'Ver Resultados <i class="fas fa-trophy"></i>';
+                    nextBtn.disabled = false;
+                    nextBtn.setAttribute('onclick', 'showQuizResults()');
+                } else {
+                    nextBtn.style.display = 'none';
+                    resetBtn.style.display = 'inline-flex';
+                }
+            } else {
+                nextBtn.innerHTML = 'Siguiente <i class="fas fa-chevron-right"></i>';
+                nextBtn.disabled = false;
+                nextBtn.style.display = 'inline-flex';
+                nextBtn.setAttribute('onclick', 'changeSlide(1)');
+                resetBtn.style.display = 'none';
+            }
+        }
+
+        function changeSlide(direction) {
+            const slides = document.querySelectorAll('.slide');
+            
+            if (direction === 1 && currentSlide === totalSlides - 1) {
+                if (currentQuizQuestion < quiz.preguntas.length - 1 && quizAnswered[currentQuizQuestion]) {
+                    showNextQuestion(currentQuizQuestion + 1);
+                } else if (currentQuizQuestion === quiz.preguntas.length - 1 && quizAnswered[currentQuizQuestion]) {
+                    showQuizResults();
+                }
+                return;
+            }
+            
+            slides[currentSlide].classList.remove('active');
+            currentSlide += direction;
+            currentSlide = Math.max(0, Math.min(currentSlide, totalSlides - 1));
+            slides[currentSlide].classList.add('active');
+            
+            if (currentSlide === totalSlides - 1) {
+                resetQuiz();
+            }
+            
+            updateSlideIndicator();
+            updateProgressBar();
+            updateNavigation();
+        }
+
+        function selectOption(questionIndex, selectedOption) {
+            if (quizAnswered[questionIndex]) return;
+            
+            const questionContainer = document.querySelector('[data-question="' + questionIndex + '"]');
+            const options = questionContainer.querySelectorAll('.quiz-option');
+            const explanation = document.getElementById('explanation-' + questionIndex);
+            
+            options.forEach(function(option) {
+                const optionValue = option.getAttribute('data-option');
+                
+                if (optionValue === quiz.preguntas[questionIndex].respuesta_correcta) {
+                    option.classList.add('correct');
+                } else if (optionValue === selectedOption) {
+                    option.classList.add('incorrect');
+                }
+                option.style.pointerEvents = 'none';
+            });
+            
+            if (selectedOption === quiz.preguntas[questionIndex].respuesta_correcta) {
+                quizScore++;
+            }
+            
+            quizAnswered[questionIndex] = true;
+            explanation.style.display = 'block';
+            updateNavigation();
+            explanation.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        function showNextQuestion(questionIndex) {
+            document.querySelectorAll('[data-question]').forEach(function(q) {
+                q.style.display = 'none';
+            });
+            
+            const nextQuestion = document.querySelector('[data-question="' + questionIndex + '"]');
+            if (nextQuestion) {
+                nextQuestion.style.display = 'block';
+                currentQuizQuestion = questionIndex;
+                nextQuestion.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+            
+            updateNavigation();
+        }
+
+        function showQuizResults() {
+            const percentage = quiz.preguntas.length > 0 ? Math.round((quizScore / quiz.preguntas.length) * 100) : 0;
+            const resultMessage = percentage >= 70 ? 
+                'Excelente trabajo! Has demostrado un gran dominio del tema.' : 
+                percentage >= 50 ?
+                'Buen trabajo. Has comprendido los conceptos principales.' :
+                'Sigue estudiando. Tienes una base, pero puedes mejorar.';
+            
+            const resultColor = percentage >= 70 ? '#27ae60' : percentage >= 50 ? '#f39c12' : '#e74c3c';
+            
+            document.getElementById('quizContainer').innerHTML = 
+                '<div class="quiz-container" style="text-align: center;">' +
+                    '<h3 style="font-size: 2rem; margin-bottom: 20px;">Resultados de la Evaluación</h3>' +
+                    '<div style="font-size: 3rem; font-weight: bold; color: ' + resultColor + '; margin: 20px 0;">' + percentage + '%</div>' +
+                    '<p style="font-size: 1.2em; margin: 20px 0; line-height: 1.6;">' + resultMessage + '</p>' +
+                    '<div style="font-size: 1.1rem; margin-top: 20px;">' +
+                        '<strong>' + quizScore + '</strong> de <strong>' + quiz.preguntas.length + '</strong> respuestas correctas' +
+                    '</div>' +
+                '</div>';
+            
+            updateNavigation();
+        }
+
+        function resetQuiz() {
+            currentQuizQuestion = 0;
+            quizScore = 0;
+            quizAnswered.fill(false);
+            
+            document.querySelectorAll('[data-question]').forEach(function(q, index) {
+                q.style.display = index === 0 ? 'block' : 'none';
+                
+                q.querySelectorAll('.quiz-option').forEach(function(option) {
+                    option.classList.remove('correct', 'incorrect');
+                    option.style.pointerEvents = 'auto';
+                });
+                
+                const explanation = q.querySelector('.quiz-explanation');
+                if (explanation) {
+                    explanation.style.display = 'none';
+                }
+            });
+            
+            updateNavigation();
+        }
+
+function resetPresentation() {
+           if (confirm('¿Estás seguro de que quieres reiniciar la presentación?')) {
+               location.reload();
+           }
+       }
+
+       // Navegación por teclado
+       document.addEventListener('keydown', function(e) {
+           if (e.key === 'ArrowLeft' && currentSlide > 0) {
+               changeSlide(-1);
+           } else if (e.key === 'ArrowRight') {
+               if (currentSlide < totalSlides - 1) {
+                   changeSlide(1);
+               } else if (currentSlide === totalSlides - 1) {
+                   if (currentQuizQuestion < quiz.preguntas.length - 1 && quizAnswered[currentQuizQuestion]) {
+                       showNextQuestion(currentQuizQuestion + 1);
+                   } else if (currentQuizQuestion === quiz.preguntas.length - 1 && quizAnswered[currentQuizQuestion]) {
+                       showQuizResults();
+                   }
+               }
+           } else if (e.key === 'Escape') {
+               resetPresentation();
+           }
+       });
+
+       // Preloader para imágenes
+       function preloadImages() {
+           const images = ['https://replicate.delivery/xezq/3lk92FrQvSbFDt88C1QkC8eB7fEW8fmXlNTiWHLcOiMDVj2pA/out-0.png','https://replicate.delivery/xezq/Oz5yXsnHxCKfVq7ABO4famk5dddW0HzUnxWeeXqJp3qjpGtTB/out-0.png','https://replicate.delivery/xezq/JspSdluHGtJgJxl9GiNdipTbTWLXT6wLIm1Us5QRiekI1odKA/out-0.png','https://replicate.delivery/xezq/UWIJS9VdJhqaHFTCmROQwFeWPme4Hqe7mg1oVk9OuzepoGtTB/out-0.png'];
+           images.forEach(function(src) {
+               if (src) {
+                   const img = new Image();
+                   img.src = src;
+               }
+           });
+       }
+
+       // Inicializar
+       updateSlideIndicator();
+       updateProgressBar();
+       updateNavigation();
+       preloadImages();
+
+       console.log('Presentación educativa inicializada correctamente');
+       console.log('Total slides: ' + totalSlides);
+       console.log('Total preguntas quiz: ' + quiz.preguntas.length);
+   </script>
+</body>
+</html>
